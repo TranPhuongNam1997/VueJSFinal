@@ -1,10 +1,10 @@
-import { createApp } from 'vue'
-import { createStore } from 'vuex'
+import Vue from 'vue'
+import Vuex from 'vuex'
 import user from './moduleUser'
 import post from './modulePost'
 
-
-const store = createStore({
+Vue.use(Vuex);
+const store = new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production',
 
     state: {

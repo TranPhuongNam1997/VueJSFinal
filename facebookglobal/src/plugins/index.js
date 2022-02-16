@@ -1,0 +1,5 @@
+import './fontawesome'
+import './jquery'
+import './bootstrap'
+import './popper'
+import  './axios'
