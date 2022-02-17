@@ -1,5 +1,22 @@
+import axiosApi from '../../plugins/axios'
+
 export default {
-    increment ({ commit }) {
-        commit('increment')
+    async getListPost({ commit }, { pagesize = PAGE_SIZE, currPage = CURR_PAGE }) {
+        try {
+
+            const result = await axiosApi.get(`/post/getListPagination.php?pagesize=${pagesize}&currPage=${currPage}`);
+
+            console.log(result.data);
+
+            if (result.data.status === 200) {
+                this.commit('GET_LISTPOST', result.data)
+            }
+            else {
+                return false
+            }
+
+        } catch (error) {
+            console.log("error", error);
+        }
     }
 }

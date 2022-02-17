@@ -1,5 +1,5 @@
 export default {
-    test: state => {
-        return state
+    listPost: state => {
+        return state.listPost
     }
 }

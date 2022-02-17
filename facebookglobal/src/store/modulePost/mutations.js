@@ -1,5 +1,5 @@
 export default {
-    increment (state) {
-        state.count++
+    GET_LISTPOST(state,data){
+        state.listPost = data;
     }
 }
