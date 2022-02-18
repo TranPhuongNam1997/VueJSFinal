@@ -28,24 +28,33 @@ import PostList from "../component/PostList.vue";
 export default{
     name: "home-page",
     data() {
-        return {};
+        return {
+            
+        };
     },
     methods:{
-        // ...mapActions({ getListPost: 'post/getListPost'})
+        // ...mapActions(['getListPost'])
     },
+    // mouted(){
+    //     axios.get('https://api-meme-zendvn-01.herokuapp.com/api/post/getListPagination.php?pagesize=3&currPage=1').then(res => {
+    //         res.json().then(post =>{
+    //             this.post = post
+    //             console.log(post)
+    //         })
+    //     })
+    // },
     created(){
-        console.log('da chay home');
-        console.log(this.$store);
         
-        // let data = {
-        //     pagesize,
-        //     currPage
-        // }
-        
-        this.$store.dispatch('getListPost',{});
+        // console.log(this.$store);
 
-        // this['getListPost']();
-        
+        // this.$store.dispatch('getListPost',{});
+        // this.getListPost()
+        // var resuilt = fetch('https://api-meme-zendvn-01.herokuapp.com/api/post/getListPagination.php?pagesize=3&currPage=1');
+        // resuilt.then(res=>{
+        //     console.log(res)
+        // })
+        // console.log(resuilt);
+
     },
     components: { PostItem, PostList }
 }

@@ -1,3 +1,4 @@
+import '@babel/polyfill'
 import './plugins'
 import './assets/scss/main.min.css'
 import Vue from 'vue'

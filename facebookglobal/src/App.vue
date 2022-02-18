@@ -27,6 +27,12 @@ export default {
 			}
 			return true
 		}
+	},
+	created(){
+        console.log('da chay home');
+
+        this.$store.dispatch('getListPost',{});
+
 	}
 
 }

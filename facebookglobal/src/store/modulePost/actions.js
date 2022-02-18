@@ -5,11 +5,10 @@ export default {
         console.log('da chay action')
 
         try {
-
             
             const result = await axiosApi.get(`/post/getListPagination.php?pagesize=${pagesize}&currPage=${currPage}`);
 
-            console.log(result);
+            console.log(result.data);
 
             // if (result.data.status === 200) {
             //     this.commit('GET_LISTPOST', result.data)
