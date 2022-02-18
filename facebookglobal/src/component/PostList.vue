@@ -4,10 +4,10 @@
 <script>
 import PostItem from './PostItem.vue'
     export default{
-  components: { PostItem },
+    components: { PostItem },
         data(){
             return{
-
+                
             }
         }
     }

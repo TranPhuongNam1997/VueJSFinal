@@ -22,12 +22,30 @@
     </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
 import PostItem from "../component/PostItem.vue"
 import PostList from "../component/PostList.vue";
 export default{
     name: "home-page",
     data() {
         return {};
+    },
+    methods:{
+        // ...mapActions({ getListPost: 'post/getListPost'})
+    },
+    created(){
+        console.log('da chay home');
+        console.log(this.$store);
+        
+        // let data = {
+        //     pagesize,
+        //     currPage
+        // }
+        
+        this.$store.dispatch('getListPost',{});
+
+        // this['getListPost']();
+        
     },
     components: { PostItem, PostList }
 }

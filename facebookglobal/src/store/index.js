@@ -19,8 +19,8 @@ const store = new Vuex.Store({
     },
 
     modules:{
-        user,
-        post
+        post,
+        user
     }
     
 

@@ -67,7 +67,7 @@ import $ from "jquery"
 
 // console.log(this.$route.state.categories);
     export default{
-        name: 'header',
+        name: 'app-header',
         data(){
             return{
             }

@@ -26,10 +26,10 @@ import { mapActions } from 'vuex'
         }
     },
     props:{
-        post:{
-            type: Array,
-            default: {}
-        }
+        // post:{
+        //     type: Array,
+        //     default: {}
+        // }
     },
     components: { HeadPostItem, BodyPostItem, FootPostItem }
 }
