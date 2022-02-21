@@ -1,7 +1,7 @@
 import axiosApi from '../../plugins/axios'
 
 export default {
-    async getListPost({ commit }, { pagesize = 3, currPage = 1 }) {
+    async getListPost({ commit }, { pagesize = 10, currPage = 1 }) {
         console.log('da chay action')
 
         try {
@@ -9,6 +9,14 @@ export default {
             const result = await axiosApi.get(`/post/getListPagination.php?pagesize=${pagesize}&currPage=${currPage}`);
 
             console.log(result.data);
+
+            if(result.data.status === 200){
+
+                this.commit('GET_LISTPOST',result.data);
+
+            }
+            
+
 
             // if (result.data.status === 200) {
             //     this.commit('GET_LISTPOST', result.data)

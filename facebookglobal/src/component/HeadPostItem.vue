@@ -1,19 +1,53 @@
 <template>
     <div class="post-item-flex">
-        <a href="#" class="box-img"><img src="/dist/img/avt-post.jpg" alt="img"></a>
+        <router-link :to="linkProfile" class="box-img"><img :src="getAvatar" @error="getAvatarError" :alt="post.fullname"></router-link>
         <div>
-            <a href="#" class="name-post">Trần Nam</a>
-            <div class="post-time">1 giờ trước <i class="hu5pjgll m6k467ps"></i></div>
+            <router-link :to="linkProfile" class="name-post">{{post.fullname}}</router-link>
+            <div class="post-time">{{setTime}} <i class="hu5pjgll m6k467ps"></i></div>
         </div>
     </div>
 </template>
 <script>
+    import setMoment from '../plugins/moment'
     export default{
         name: 'head-postitem',
         data(){
             return{
                 
             }
-        }
+        },
+        computed:{
+            getAvatar(){
+                if(this.post.profilepicture){
+                    return this.post.profilepicture
+                }
+
+                return 'http://humg.edu.vn/Publishing_Resources/web/images/noavatar.gif'
+            },
+            linkProfile(){
+                return {
+                    name: 'user-page',
+                    params:{
+                        id: this.post.USERID
+                    }
+                }
+            },
+            setTime(){
+                return setMoment(this.post.time_added)
+            }
+            
+            
+        },
+        methods:{
+            getAvatarError(event) { 
+                event.target.src = "http://humg.edu.vn/Publishing_Resources/web/images/noavatar.gif" 
+            }
+        },
+        props:{
+            post:{
+                type: Object,
+                default: null
+            }
+        },
     }
 </script>

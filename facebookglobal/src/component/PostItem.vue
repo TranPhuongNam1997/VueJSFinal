@@ -1,8 +1,8 @@
 <template>
     <div class="post-item">
-        <HeadPostItem/>
-        <BodyPostItem/>
-        <FootPostItem/>
+        <HeadPostItem :post="post" />
+        <BodyPostItem :post="post"/>
+        <FootPostItem :post="post"/>
     </div>
 </template>
 <script>
@@ -17,7 +17,7 @@ import { mapActions } from 'vuex'
     },
     methods:{
         ...mapActions(['getListPost']),
-        getListPost({dispatch}){
+        getListPost(){
             let data = {
                 PAGE_SIZE: 3,
                 CURR_PAGE: 1
@@ -26,10 +26,10 @@ import { mapActions } from 'vuex'
         }
     },
     props:{
-        // post:{
-        //     type: Array,
-        //     default: {}
-        // }
+        post:{
+            type: Object,
+            default: null
+        }
     },
     components: { HeadPostItem, BodyPostItem, FootPostItem }
 }

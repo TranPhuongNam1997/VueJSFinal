@@ -17,6 +17,12 @@
             return{
                 
             }
-        }
+        },
+        props:{
+            post:{
+                type: Object,
+                default: null
+            }
+        },
     }
 </script>
