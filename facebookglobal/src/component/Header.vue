@@ -49,7 +49,7 @@
                 <div class="nav-block">
                     <ul>
                         <li v-for="item in categories" :key="item.id">
-                            <a href="#">{{item.text}}</a>
+                            <router-link :to="urlCategory(item)">{{item.text}}</router-link>
                         </li>
                     </ul>
                 </div>
@@ -62,8 +62,9 @@
 
 <script>
 
-import { mapState } from "vuex"
+import { mapActions, mapState } from "vuex"
 import $ from "jquery"
+import convertVietnameseFromString from '../plugins/converturl'
 
 // console.log(this.$route.state.categories);
     export default{
@@ -77,7 +78,32 @@ import $ from "jquery"
                 return this.$store.state.post.categories
             }
         },
+        watch: {
+            '$route'(to, from) {
+                let tabIndex = to.query.tabIndex;
+                console.log(tabIndex)
+                if(tabIndex){
+                    this.getListPostByCategory({
+                        tabIndex: tabIndex
+                    });
+                }
+                else{
+                    this.getListPost({})
+                }
+            }
+        },
         methods:{
+            ...mapActions(['getListPostByCategory','getListPost']),
+            urlCategory(category){
+                
+                return{
+                    name:'home-page',
+                    query:{
+                        text: convertVietnameseFromString(category.text),
+                        tabIndex: category.id
+                    }
+                }
+            },
             
         },
         mounted(){
@@ -86,6 +112,12 @@ import $ from "jquery"
                 $('.btn-category').toggleClass('active');
                 event.stopPropagation();
             });
+            
+            $(".nav-block").click(function (event) {
+                $('.navigation').slideUp(300,'swing');
+            });
+            
+            
         },
         
         

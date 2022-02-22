@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class="post-status">
-            Tà xùa ngày trở lại
+            {{post.post_content}}
         </div>
         <div class="post-img">
             <a href="#">
-                <img src="/dist/img/post-img.jpg" alt="img" class="w-100">
+                <img @error="getImageError" :src="getImagePost" alt="img" class="w-100">
             </a>
         </div>
     </div>
@@ -16,6 +16,20 @@
         data(){
             return{
                 
+            }
+        },
+        computed:{
+            getImagePost(){
+                if(this.post.url_image){
+                    return this.post.url_image
+                }
+
+                return 'https://www.bukandroid.com/wp-content/uploads/2020/04/Cara-Hapus-Data-Thumbnail-Android.png'
+            },
+        },
+        methods:{
+            getImageError(event) { 
+                event.target.src = "https://www.bukandroid.com/wp-content/uploads/2020/04/Cara-Hapus-Data-Thumbnail-Android.png" 
             }
         },
         props:{
