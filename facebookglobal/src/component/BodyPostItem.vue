@@ -4,9 +4,9 @@
             {{post.post_content}}
         </div>
         <div class="post-img">
-            <a href="#">
+            <router-link :to="toDetailPost">
                 <img @error="getImageError" :src="getImagePost" alt="img" class="w-100">
-            </a>
+            </router-link>
         </div>
     </div>
 </template>
@@ -26,11 +26,20 @@
 
                 return 'https://www.bukandroid.com/wp-content/uploads/2020/04/Cara-Hapus-Data-Thumbnail-Android.png'
             },
+            toDetailPost(){
+                return {
+                    name: 'post-detail',
+                    params:{
+                        id: this.post.PID
+                    }
+                }
+            }
         },
         methods:{
             getImageError(event) { 
                 event.target.src = "https://www.bukandroid.com/wp-content/uploads/2020/04/Cara-Hapus-Data-Thumbnail-Android.png" 
-            }
+            },
+            
         },
         props:{
             post:{

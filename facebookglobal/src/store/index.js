@@ -8,14 +8,18 @@ const store = new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production',
 
     state: {
-        
+        isLoading: false
     },
     actions:{
-        
+        loading({commit}, isLoading){
+            commit('SET_LOADING',isLoading)
+        }
     },
 
     mutations: {
-        
+        SET_LOADING : (state, isLoading) =>{
+            state.isLoading = isLoading
+        }
     },
 
     modules:{

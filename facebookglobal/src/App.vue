@@ -4,20 +4,25 @@
 		<div class="main">
 			<router-view></router-view>
 		</div>
+		<loading :class="{open : isLoading}" />
 	</div>
 </template>
-
 <script>
+import { mapState } from 'vuex';
 import Header from "./component/Header.vue"
-
+import Loading from './component/Loading.vue';
 export default {
     name: "app",
     data() {
         return {};
     },
-    components: { Header },
-
+	methods:{
+		
+	},
+	
+    components: { Header, Loading },
 	computed:{
+		...mapState(['isLoading']),
 		setheader(){
 			let arr = ['login','register'];
 			let arras = this.$route.name;
@@ -28,13 +33,6 @@ export default {
 			return true
 		}
 	},
-	created(){
-        console.log('da chay home');
-
-        this.$store.dispatch('getListPost',{});
-
-	}
-
 }
 </script>
 <style>

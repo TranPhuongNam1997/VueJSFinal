@@ -1,67 +1,37 @@
 import axiosApi from '../../plugins/axios'
+import {PAGE_SIZE,CURREN_PAGE} from '../../instant'
 
 export default {
-    async getListPost({ commit }, { pagesize = 10, currPage = 1 }) {
-        console.log('da chay action')
-
+    async getListPostAll({commit}, { pagesize = PAGE_SIZE, currPage = CURREN_PAGE,tagIndex = null }) {
+        commit('SET_LOADING',true);
         try {
-            
-            const result = await axiosApi.get(`/post/getListPagination.php?pagesize=${pagesize}&currPage=${currPage}`);
-
-            console.log(result.data);
+            let config = {
+                params:{
+                    pagesize, 
+                    currPage,
+                },
+            }
+            if(tagIndex){
+                config.params.tagIndex = tagIndex
+                var result = await axiosApi.get('/post/getListByCategory.php',config);
+            }
+            else{
+                var result = await axiosApi.get('/post/getListPagination.php',config);
+            }
+            commit('SET_LOADING',false);
 
             if(result.data.status === 200){
-
-                this.commit('GET_LISTPOST',result.data);
-
+                if(currPage === 1){
+                    commit('GET_LISTPOST',result.data.posts);
+                }
+                if(currPage > 1){
+                    commit('GET_LISTPOST_MORE',result.data.posts);
+                    console.log('GET_LISTPOST_MORE = ',result.data.posts);
+                    
+                }
             }
             
-
-
-            // if (result.data.status === 200) {
-            //     this.commit('GET_LISTPOST', result.data)
-            // }
-            // else {
-            //     return false
-            // }
-
-        } catch (error) {
-            console.log("error", error);
-        }
-    },
-    async getListPostByCategory({ commit }, { pagesize = 10, currPage = 1,tagIndex = 1 }) {
-
-        console.log('da chay action')
-        let config = {
-            params:{
-                pagesize : pagesize, 
-            currPage : currPage
-            }
             
-        }
-
-
-        try {
-            
-            const result = await axiosApi.get('/post/getListByCategory.php',config);
-
-            console.log('getListPostByCategory', result.data);
-
-            if(result.data.status === 200){
-
-                this.commit('GET_LISTPOST',result.data);
-
-            }
-            
-
-
-            // if (result.data.status === 200) {
-            //     this.commit('GET_LISTPOST', result.data)
-            // }
-            // else {
-            //     return false
-            // }
-
         } catch (error) {
             console.log("error", error);
         }

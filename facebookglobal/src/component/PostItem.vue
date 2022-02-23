@@ -16,14 +16,14 @@ import { mapActions } from 'vuex'
         return {};
     },
     methods:{
-        ...mapActions(['getListPost']),
-        getListPost(){
-            let data = {
-                PAGE_SIZE: 3,
-                CURR_PAGE: 1
-            }
-            return this.dispatch(getListPost(data));
-        }
+        // ...mapActions(['getListPostAll']),
+        // getListPost(){
+        //     let data = {
+        //         PAGE_SIZE: 3,
+        //         CURR_PAGE: 1
+        //     }
+        //     return this.dispatch(getListPostAll(data));
+        // }
     },
     props:{
         post:{

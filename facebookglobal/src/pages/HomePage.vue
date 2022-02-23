@@ -5,9 +5,7 @@
                 <div class="post-list">
                     <PostList/>
                     
-                    <div class="text-center mt-3 mb-4">
-                        <button class="view-more">Xem thêm <i class="fa fa-angle-down"></i></button>
-                    </div>
+                   
 
                 </div>
             </div>
@@ -22,39 +20,38 @@
     </div>
 </template>
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import PostItem from "../component/PostItem.vue"
 import PostList from "../component/PostList.vue";
+import {PAGE_SIZE,CURREN_PAGE} from '../instant'
+
 export default{
     name: "home-page",
     data() {
         return {
-            
+            pagesize: PAGE_SIZE,
+            currPage: CURREN_PAGE,
+            tagIndex: parseInt(this.$route.query.tagIndex)
         };
     },
-    methods:{
-        // ...mapActions(['getListPost'])
+    watch: {
+        '$route'(to, from) {
+            this.tagIndex = to.query.tagIndex;
+        }
     },
-    // mouted(){
-    //     axios.get('https://api-meme-zendvn-01.herokuapp.com/api/post/getListPagination.php?pagesize=3&currPage=1').then(res => {
-    //         res.json().then(post =>{
-    //             this.post = post
-    //             console.log(post)
-    //         })
-    //     })
-    // },
+    computed:{
+        ...mapGetters(['listPost'])
+    },
+    methods:{
+        ...mapActions(['getListPostAll'])
+    },
     created(){
-        
-        // console.log(this.$store);
-
-        // this.$store.dispatch('getListPost',{});
-        // this.getListPost()
-        // var resuilt = fetch('https://api-meme-zendvn-01.herokuapp.com/api/post/getListPagination.php?pagesize=3&currPage=1');
-        // resuilt.then(res=>{
-        //     console.log(res)
-        // })
-        // console.log(resuilt);
-
+        let obj = {
+            pagesize: this.pagesize,
+            currPage: this.currPage,
+            tagIndex: this.tagIndex,
+        }
+        this.getListPostAll(obj);
     },
     components: { PostItem, PostList }
 }

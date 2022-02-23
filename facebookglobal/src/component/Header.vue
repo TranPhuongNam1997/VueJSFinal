@@ -80,27 +80,29 @@ import convertVietnameseFromString from '../plugins/converturl'
         },
         watch: {
             '$route'(to, from) {
-                let tabIndex = to.query.tabIndex;
-                console.log(tabIndex)
-                if(tabIndex){
-                    this.getListPostByCategory({
-                        tabIndex: tabIndex
-                    });
+
+                let tagIndex = to.query.tagIndex;
+
+                if(tagIndex){
+                    this.getListPostAll({ tagIndex });
                 }
                 else{
-                    this.getListPost({})
+                    this.getListPostAll({})
                 }
             }
         },
+        created(){
+            this.getListPostAll({})
+        },
         methods:{
-            ...mapActions(['getListPostByCategory','getListPost']),
-            urlCategory(category){
+            ...mapActions(['getListPostAll']),
+            urlCategory(item){
                 
                 return{
                     name:'home-page',
                     query:{
-                        text: convertVietnameseFromString(category.text),
-                        tabIndex: category.id
+                        text: convertVietnameseFromString(item.text),
+                        tagIndex: item.id
                     }
                 }
             },
@@ -127,5 +129,8 @@ import convertVietnameseFromString from '../plugins/converturl'
 .nav-block ul{
     width: 100%;
     column-count: 3;
+}
+.router-link-exact-active.router-link-active {
+    color: #0f91f3!important;
 }
 </style>
