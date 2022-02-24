@@ -23,20 +23,18 @@
 import { mapActions, mapGetters } from 'vuex';
 import PostItem from "../component/PostItem.vue"
 import PostList from "../component/PostList.vue";
-import {PAGE_SIZE,CURREN_PAGE} from '../instant'
 
 export default{
     name: "home-page",
     data() {
         return {
-            pagesize: PAGE_SIZE,
-            currPage: CURREN_PAGE,
-            tagIndex: parseInt(this.$route.query.tagIndex)
+            
         };
     },
     watch: {
         '$route'(to, from) {
-            this.tagIndex = to.query.tagIndex;
+            var tagIndex = to.query.tagIndex
+            this.getListPostAll({tagIndex});
         }
     },
     computed:{
@@ -46,12 +44,9 @@ export default{
         ...mapActions(['getListPostAll'])
     },
     created(){
-        let obj = {
-            pagesize: this.pagesize,
-            currPage: this.currPage,
-            tagIndex: this.tagIndex,
-        }
-        this.getListPostAll(obj);
+        var tagIndex = this.$route.query.tagIndex
+        this.getListPostAll({tagIndex});
+
     },
     components: { PostItem, PostList }
 }

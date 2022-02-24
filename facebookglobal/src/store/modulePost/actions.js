@@ -21,9 +21,7 @@ export default {
             commit('SET_LOADING',false);
 
             if(result.data.status === 200){
-                if(currPage === 1){
-                    commit('GET_LISTPOST',result.data.posts);
-                }
+                if(currPage === 1) commit('GET_LISTPOST',result.data.posts);
                 if(currPage > 1){
                     commit('GET_LISTPOST_MORE',result.data.posts);
                     console.log('GET_LISTPOST_MORE = ',result.data.posts);
