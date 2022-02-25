@@ -30,6 +30,7 @@ import {PAGE_SIZE,CURREN_PAGE} from '../instant'
         watch: {
             '$route'(to, from) {
                 this.tagIndex = to.query.tagIndex;
+                this.currPage = 1
             }
         },
 

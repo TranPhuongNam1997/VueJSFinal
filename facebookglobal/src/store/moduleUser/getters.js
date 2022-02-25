@@ -1,5 +1,5 @@
 export default {
-    test: state => {
-        return state
+    user: state => {
+        return state.user
     }
 }

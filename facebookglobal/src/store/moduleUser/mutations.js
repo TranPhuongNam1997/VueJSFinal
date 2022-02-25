@@ -1,5 +1,5 @@
 export default {
-    increment (state) {
-        state.count++
+    GET_USERBYID(state,user){
+        state.user = user
     }
 }

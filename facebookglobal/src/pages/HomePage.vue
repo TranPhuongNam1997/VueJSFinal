@@ -4,9 +4,6 @@
             <div class="col-lg-8">
                 <div class="post-list">
                     <PostList/>
-                    
-                   
-
                 </div>
             </div>
             <div class="col-lg-4">

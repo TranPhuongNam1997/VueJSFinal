@@ -34,4 +34,38 @@ export default {
             console.log("error", error);
         }
     },
+
+    async getPostDetailByPostId({commit,dispatch}, postId) {
+        commit('SET_LOADING',true);
+        try {
+            var result = await axiosApi.get('/post/post.php?postid=' + postId);
+
+            commit('SET_LOADING',false);
+            
+
+            if(result.data.status === 200){
+                let data = result.data.data.post;
+
+                commit('GET_POSTDETAIL',data);
+                console.log('result.data.data.post.USERID = ',result.data.data.post.USERID);
+
+
+                var dataUser = await dispatch('getUserById',result.data.data.post.USERID)
+                console.log('dataUser = ',dataUser);
+                
+                return {
+                    oke : true,
+                    data: result.data,
+                    error: null
+                }
+
+            }
+            
+        } catch (error) {
+            return{
+                oke: false,
+                error: error.message
+            }
+        }
+    },
 }
