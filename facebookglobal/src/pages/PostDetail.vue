@@ -2,8 +2,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <div class="post-list">
-                    <post-item :post="this.postDetail"/>
+                <div class="post-list" v-if="postDetail && postDetail.post">
+                    <post-item :post="postDetail.post" />
                     <div class="sort-cmt">
                         <div></div>
                         <div class="dropdown">

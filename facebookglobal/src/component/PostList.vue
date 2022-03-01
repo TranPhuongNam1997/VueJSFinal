@@ -1,4 +1,4 @@
-<template>
+<template >
     <div>
         <post-item 
             v-for="item in listPost" 

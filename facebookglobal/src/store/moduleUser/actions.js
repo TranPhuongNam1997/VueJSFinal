@@ -11,7 +11,8 @@ export default {
             
 
             if(result.data.status === 200){
-
+                // console.log('result.data.user',result.data.user);
+                
                 commit('GET_USERBYID',result.data.user);
                 
                 return {

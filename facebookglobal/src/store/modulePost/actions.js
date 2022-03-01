@@ -40,18 +40,21 @@ export default {
         try {
             var result = await axiosApi.get('/post/post.php?postid=' + postId);
 
-            commit('SET_LOADING',false);
             
 
             if(result.data.status === 200){
                 let data = result.data.data.post;
 
                 commit('GET_POSTDETAIL',data);
+
                 console.log('result.data.data.post.USERID = ',result.data.data.post.USERID);
 
 
-                var dataUser = await dispatch('getUserById',result.data.data.post.USERID)
-                console.log('dataUser = ',dataUser);
+                var dataUser = await dispatch('getUserById',result.data.data.post.USERID, {root:true})
+
+                commit('SET_LOADING',false);
+
+                // console.log('dataUser = ',dataUser);
                 
                 return {
                     oke : true,

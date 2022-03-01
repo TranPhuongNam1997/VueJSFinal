@@ -20,13 +20,13 @@ export default {
         }, { 
             text: 'Running man',
             id: 6
-        }, { 
+        }, {
             text: 'Ảnh bựa VL',
-            id: 7
+            id: 7   
         }, { 
             text: 'Faptv',
             id: 8
-        }, { 
+        }, {
             text: '500 anh em',
             id: 9
         }, { 

@@ -8,7 +8,7 @@ export default {
     },
     
     GET_POSTDETAIL(state,data){
-        state.postDetail = data
+        state.postDetail = data;
     },
 
 }
