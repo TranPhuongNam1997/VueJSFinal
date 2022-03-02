@@ -11,7 +11,8 @@ export default {
     },
     
     SET_ACCESS_TOKEN(state,data){
-        state.ACCESS_TOKEN = data
+        state.ACCESS_TOKEN = data;
+        localStorage.setItem('token',data);
     },
 
 }

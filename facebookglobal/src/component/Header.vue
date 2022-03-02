@@ -39,7 +39,12 @@
                             <span>Đăng bài</span>
                         </label>
                     </router-link>
-                    <router-link to="/login" class="link-login">Đăng nhập</router-link>
+                    <router-link v-if="currentUser" :to="{ name: 'user-page', params: { id: currentUser.USERID }}" >
+                        toi ten la nam
+                    </router-link>
+                    <router-link v-else to="/login" class="link-login">Đăng nhập</router-link>
+                    
+
                 </div>
             </div>
         </div>
@@ -62,7 +67,7 @@
 
 <script>
 
-import { mapActions, mapState } from "vuex"
+import { mapActions, mapGetters, mapState } from "vuex"
 import $ from "jquery"
 import convertVietnameseFromString from '../plugins/converturl'
 
@@ -74,6 +79,7 @@ import convertVietnameseFromString from '../plugins/converturl'
             }
         },
         computed:{
+            ...mapGetters(['currentUser']),
             categories(){
                 return this.$store.state.post.categories
             }

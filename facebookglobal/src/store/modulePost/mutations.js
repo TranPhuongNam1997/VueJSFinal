@@ -9,6 +9,7 @@ export default {
     
     GET_POSTDETAIL(state,data){
         state.postDetail = data;
+        
     },
 
 }

@@ -49,8 +49,6 @@ export default {
 
             if(result.data.status === 200){
 
-                console.log('datauser',result.data)
-
                 commit('SET_CURRENT_USER',result.data.user)
                 commit('SET_ACCESS_TOKEN',result.data.token)
                 return {
@@ -63,7 +61,7 @@ export default {
             else{
                 return{
                     oke: false,
-                    error: result.data.message
+                    error: result.data.error
                 }
             }
             

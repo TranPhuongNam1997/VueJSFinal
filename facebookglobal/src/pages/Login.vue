@@ -73,10 +73,6 @@
 </template>
 <script>
 
-import Notifications from 'vue-notification';
-import Vue from 'vue';
-
-Vue.use(Notifications);
 
 import { mapActions } from 'vuex'
     export default{
@@ -97,18 +93,34 @@ import { mapActions } from 'vuex'
                     password: this.password
                 }
                 this.Login(data).then(res => {
-                    console.log('res = ', res);
                     if(res.oke){
                         this.$router.push('/');
-                        Swal.fire({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!',
-                            footer: '<a href>Why do I have this issue?</a>'
+                        this.$notify({
+                            group: 'foo',
+                            type: 'success',
+                            title: 'Thông báo',
+                            text: 'Đăng nhập thành công'
                         });
                     }
                     else{
-
+                        var texterror =  res.error;
+                        if(typeof texterror == 'string'){
+                            this.$notify({
+                                group: 'foo',
+                                type: 'error',
+                                title: 'Thông báo',
+                                text: texterror
+                            });
+                        }
+                        else{
+                            this.$notify({
+                                group: 'foo',
+                                type: 'error',
+                                title: 'Thông báo',
+                                text: texterror.join(' ')
+                            });
+                        }
+                        
                     }
                 })
             }

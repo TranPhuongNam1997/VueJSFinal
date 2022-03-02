@@ -7,6 +7,9 @@ import Vuex from 'vuex'
 import App from './App.vue'
 import store from './store'
 import router from './router'
+import Notifications from 'vue-notification'
+
+Vue.use(Notifications)
 
 Vue.use(Vuex)
 

@@ -1,5 +1,5 @@
 export default {
-    // user: state => {
-    //     return state.users
-    // }
+    currentUser: state => {
+        return state.currentUser
+    }
 }
