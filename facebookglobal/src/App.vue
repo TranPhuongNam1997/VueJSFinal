@@ -5,12 +5,17 @@
 			<router-view></router-view>
 		</div>
 		<loading :class="{open : isLoading}" />
+		<notifications position="bottom right"/>
 	</div>
 </template>
 <script>
 import { mapState } from 'vuex';
 import Header from "./component/Header.vue"
 import Loading from './component/Loading.vue';
+import Vue           from 'vue'
+import Notifications from 'vue-notification'
+
+Vue.use(Notifications)
 export default {
     name: "app",
     data() {

@@ -1,5 +1,7 @@
 export default {
-    users: {}
+    users: {},
+    currentUser: null,
+    ACCESS_TOKEN: null,
 }
 /*
 Dạng key value thì lấy ra dùng ngay lập tức luôn 

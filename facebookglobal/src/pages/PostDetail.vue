@@ -183,6 +183,8 @@ import PostItem from '../component/PostItem.vue'
             }
         },
         created(){
+            console.log('PostDetail postId = ',this.postId);
+            
             this.fetchgetPostDetailByPostId()
         },
         methods:{

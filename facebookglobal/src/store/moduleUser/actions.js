@@ -2,6 +2,7 @@
 import axiosApi from '../../plugins/axios'
 
 export default {
+
     async getUserById({commit}, userid) {
         commit('SET_LOADING',true);
         try {
@@ -11,7 +12,7 @@ export default {
             
 
             if(result.data.status === 200){
-                // console.log('result.data.user',result.data.user);
+                console.log('ACTION USER result.data.user',result.data.user);
                 
                 commit('GET_USERBYID',result.data.user);
                 
@@ -21,6 +22,49 @@ export default {
                     error: null
                 }
 
+            }
+            
+        } catch (error) {
+            console.log("error", error);
+            return{
+                oke: false,
+                error: error.message
+            }
+        }
+    },
+    
+    async Login({commit}, {email = '', password = ''}) {
+
+        commit('SET_LOADING',true);
+        console.log('aasdasd')
+
+        try {
+            let data = {
+                email,
+                password
+            }
+            var result = await axiosApi.post('/member/login.php',data);
+
+            commit('SET_LOADING',false);
+
+            if(result.data.status === 200){
+
+                console.log('datauser',result.data)
+
+                commit('SET_CURRENT_USER',result.data.user)
+                commit('SET_ACCESS_TOKEN',result.data.token)
+                return {
+                    oke : true,
+                    data: result.data.user,
+                    error: null
+                }
+
+            }
+            else{
+                return{
+                    oke: false,
+                    error: result.data.message
+                }
             }
             
         } catch (error) {

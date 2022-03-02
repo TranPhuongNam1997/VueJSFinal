@@ -6,13 +6,13 @@
 
             </div>
             <div class="bg-white">
-                <form action="">
+                <form @submit.prevent="handleLogin">
                     <div class="form-login">
                         <div class="field-ip">
-                            <input type="text" placeholder="Email hoặc số điện thoại">
+                            <input type="text" v-model="email" placeholder="Email hoặc số điện thoại">
                         </div>
                         <div class="field-ip">
-                            <input id="password-login" type="password" placeholder="Mật khẩu">
+                            <input id="password-login" v-model="password" type="password" placeholder="Mật khẩu">
                             <div class="showhide-pass">
                                 <div class="show-pass">
                                     <img class="" src="/dist/img/iconshowpass.png" alt="img">
@@ -23,7 +23,7 @@
                             </div>
                         </div>
 
-                        <button class="btn-login">Đăng nhập</button>
+                        <button class="btn-login" type="submit">Đăng nhập</button>
                     </div>
                 </form>
                 <div class="line-login"></div>
@@ -72,11 +72,45 @@
     </div>
 </template>
 <script>
+
+import Notifications from 'vue-notification';
+import Vue from 'vue';
+
+Vue.use(Notifications);
+
+import { mapActions } from 'vuex'
     export default{
         name: 'login',
         data(){
             return {
+                email: '',
+                password: ''
+            }
+        },
+        methods:{
 
+            ...mapActions(['Login']),
+
+            handleLogin(){
+                let data = {
+                    email: this.email,
+                    password: this.password
+                }
+                this.Login(data).then(res => {
+                    console.log('res = ', res);
+                    if(res.oke){
+                        this.$router.push('/');
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!',
+                            footer: '<a href>Why do I have this issue?</a>'
+                        });
+                    }
+                    else{
+
+                    }
+                })
             }
         }
     }

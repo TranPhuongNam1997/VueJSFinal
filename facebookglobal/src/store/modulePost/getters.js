@@ -5,25 +5,20 @@ export default {
     postDetail (state, getters, rootState) {
         
         if(state.postDetail){
-            console.log('state = ',state);
-            console.log('getters =',getters);
-            console.log('rootState = ',rootState);
             
-            var userId = state.postDetail.USERID;
+            var userId = state.postDetail.post.USERID;
             var dataUser = rootState.user.users[userId];
-            console.log('dataUser -= ', dataUser);
             let dataPostDetail = {
                 post:{
-                    ...state.postDetail,
+                    ...state.postDetail.post,
                     fullname: dataUser.fullname,
                     profilepicture: dataUser.profilepicture
 
-                }
+                },
+                categories: state.postDetail.categories
             }
             return dataPostDetail
         }
-
-        
     },
 
 }
