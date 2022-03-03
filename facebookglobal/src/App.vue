@@ -9,7 +9,7 @@
 	</div>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import Header from "./component/Header.vue"
 import Loading from './component/Loading.vue';
 
@@ -35,6 +35,13 @@ export default {
 			return true
 		}
 	},
+	created(){
+		this.checkLogin()
+	},
+	methods:{
+
+		...mapActions(['checkLogin'])
+	}
 }
 </script>
 <style>

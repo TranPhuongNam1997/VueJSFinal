@@ -39,8 +39,9 @@
                             <span>Đăng bài</span>
                         </label>
                     </router-link>
-                    <router-link v-if="currentUser" :to="{ name: 'user-page', params: { id: currentUser.USERID }}" >
-                        toi ten la nam
+                    <router-link class="view-user" v-if="currentUser" :to="{ name: 'user-page', params: { id: currentUser.USERID }}" >
+                        <span>{{currentUser.fullname}}</span>
+                        <img :src="currentUser.profilepicture" alt="img" @error="getAvatarError" />
                     </router-link>
                     <router-link v-else to="/login" class="link-login">Đăng nhập</router-link>
                     
@@ -112,6 +113,9 @@ import convertVietnameseFromString from '../plugins/converturl'
                     }
                 }
             },
+            getAvatarError(event) { 
+                event.target.src = "http://humg.edu.vn/Publishing_Resources/web/images/noavatar.gif" 
+            }
             
         },
         mounted(){
@@ -138,5 +142,29 @@ import convertVietnameseFromString from '../plugins/converturl'
 }
 .router-link-exact-active.router-link-active {
     color: #0f91f3!important;
+}
+
+.view-user{
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    padding: 4px 4px 4px 10px;
+    border-radius: 30px;
+    background: #fff;
+    border: 1px solid #e4e6eb;
+    transition: all 0.2s ease;
+
+}
+.view-user:hover{
+    background: #D8DADF;
+    transition: all 0.2s ease;
+    color: #1e1633;
+}
+.view-user img{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-left: 5px;
+    object-fit: cover;
 }
 </style>

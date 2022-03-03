@@ -7,12 +7,13 @@ export default {
         Vue.set(state.users, data.USERID, data)
     },
     SET_CURRENT_USER(state,data){
-        state.currentUser = data
+        state.currentUser = data.user;
+        state.ACCESS_TOKEN = data.token;
+        localStorage.setItem('token',data.token);
     },
     
-    SET_ACCESS_TOKEN(state,data){
-        state.ACCESS_TOKEN = data;
-        localStorage.setItem('token',data);
-    },
+    // SET_ACCESS_TOKEN(state,data){
+        
+    // },
 
 }

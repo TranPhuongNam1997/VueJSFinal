@@ -1,5 +1,6 @@
 
 import axiosApi from '../../plugins/axios'
+import parseJwt from '../../helper'
 
 export default {
 
@@ -36,8 +37,6 @@ export default {
     async Login({commit}, {email = '', password = ''}) {
 
         commit('SET_LOADING',true);
-        console.log('aasdasd')
-
         try {
             let data = {
                 email,
@@ -49,8 +48,8 @@ export default {
 
             if(result.data.status === 200){
 
-                commit('SET_CURRENT_USER',result.data.user)
-                commit('SET_ACCESS_TOKEN',result.data.token)
+                commit('SET_CURRENT_USER',result.data)
+                // commit('SET_ACCESS_TOKEN',result.data.token)
                 return {
                     oke : true,
                     data: result.data.user,
@@ -62,6 +61,66 @@ export default {
                 return{
                     oke: false,
                     error: result.data.error
+                }
+            }
+            
+        } catch (error) {
+            console.log("error", error);
+            return{
+                oke: false,
+                error: error.message
+            }
+        }
+    },
+    // muc dich là khi load lại trang thì comvet jwt gui tài khoản user sang getUserById sau khi co được dữ lieeu thì đẩy sang mutation để lưu cái current user
+
+    async checkLogin({commit,dispatch}) {
+
+        commit('SET_LOADING',true);
+
+
+        try {
+            var tokenUserLocal = localStorage.getItem('token');
+
+
+            console.log('tokenUser = ',tokenUserLocal);
+            
+            var infoAcc = parseJwt(tokenUserLocal);
+
+            console.log('infoAcc = ',infoAcc);
+            
+            if(infoAcc){
+                var infouser = await dispatch('getUserById',infoAcc.id);
+                
+                console.log('infouser = ',infouser.data);
+                
+                
+                let data = {
+                    user: infouser.data,
+                    token: tokenUserLocal
+                }
+                commit('SET_CURRENT_USER',data)
+            }
+
+            commit('SET_LOADING',false);
+
+
+
+            if(result.data.status === 200){
+
+                // commit('SET_CURRENT_USER',result.data)
+                
+                return {
+                    oke : true,
+                    data: result.data,
+                    error: null
+                }
+
+            }
+            else{
+                return{
+                    oke: false,
+                    error: error.message
                 }
             }
             
