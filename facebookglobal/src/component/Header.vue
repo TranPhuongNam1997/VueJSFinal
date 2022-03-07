@@ -42,6 +42,9 @@
                     <router-link class="view-user" v-if="currentUser" :to="{ name: 'user-page', params: { id: currentUser.USERID }}" >
                         <span>{{currentUser.fullname}}</span>
                         <img :src="currentUser.profilepicture" alt="img" @error="getAvatarError" />
+                        <span class="btn-logout">
+                            <a href="#" @click.prevent="handleLogout">Đăng xuất</a>
+                        </span>
                     </router-link>
                     <router-link v-else to="/login" class="link-login">Đăng nhập</router-link>
                     
@@ -102,7 +105,7 @@ import convertVietnameseFromString from '../plugins/converturl'
             this.getListPostAll({})
         },
         methods:{
-            ...mapActions(['getListPostAll']),
+            ...mapActions(['getListPostAll' ,'logout']),
             urlCategory(item){
                 
                 return{
@@ -115,6 +118,16 @@ import convertVietnameseFromString from '../plugins/converturl'
             },
             getAvatarError(event) { 
                 event.target.src = "http://humg.edu.vn/Publishing_Resources/web/images/noavatar.gif" 
+            },
+            handleLogout(){
+                this.logout();
+                this.$router.push('/login');
+                this.$notify({
+                    group: 'foo',
+                    type: 'success',
+                    title: 'Thông báo',
+                    text: 'Bạn đã đăng xuất thành công'
+                });
             }
             
         },
@@ -153,10 +166,11 @@ import convertVietnameseFromString from '../plugins/converturl'
     background: #fff;
     border: 1px solid #e4e6eb;
     transition: all 0.2s ease;
+    position: relative;
 
 }
 .view-user:hover{
-    background: #D8DADF;
+    background: #E4E6EB;
     transition: all 0.2s ease;
     color: #1e1633;
 }
@@ -166,5 +180,29 @@ import convertVietnameseFromString from '../plugins/converturl'
     border-radius: 50%;
     margin-left: 5px;
     object-fit: cover;
+}
+.view-user:hover .btn-logout{
+    display: block;
+}
+.btn-logout{
+    position: absolute;
+    top: 41px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-top: 8px;
+    display: none;
+}
+.btn-logout a{
+    display: block;
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px 63px;
+    border: 1px solid #e4e6eb;
+    white-space: nowrap;
+
+}
+.btn-logout a:hover{
+    background: #DDDFE4;
+    color: #1e1633;
 }
 </style>

@@ -16,4 +16,10 @@ export default {
         
     // },
 
+    LOG_OUT(state){
+        state.currentUser = '';
+        state.ACCESS_TOKEN = '';
+        localStorage.setItem('token','');
+    }
+
 }
