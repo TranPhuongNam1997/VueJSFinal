@@ -1,8 +1,10 @@
 
 import axiosApi from '../../plugins/axios'
-import parseJwt from '../../helper'
+import {parseJwt} from '../../helper'
 
 export default {
+
+    // action lấy thông tin người dùng
 
     async getUserById({commit}, userid) {
         commit('SET_LOADING',true);
@@ -26,7 +28,6 @@ export default {
             }
             
         } catch (error) {
-            console.log("error", error);
             return{
                 oke: false,
                 error: error.message
@@ -34,7 +35,8 @@ export default {
         }
     },
     
-    async Login({commit}, {email = '', password = ''}) {
+    // action Đăng nhập
+    async Login({commit,dispatch}, {email = '', password = ''}) {
 
         commit('SET_LOADING',true);
         try {
@@ -44,12 +46,19 @@ export default {
             }
             var result = await axiosApi.post('/member/login.php',data);
 
+            //gửi id sang để lấy bài viết cho user
+
             commit('SET_LOADING',false);
 
             if(result.data.status === 200){
 
-                commit('SET_CURRENT_USER',result.data)
-                // commit('SET_ACCESS_TOKEN',result.data.token)
+                
+
+                commit('SET_CURRENT_USER',result.data);
+
+                //khi đăng nhập gửi userid để lấy danh sách bài viết của user đó
+
+                dispatch('getPostListByUserId',result.data.user.USERID);
                 return {
                     oke : true,
                     data: result.data.user,
@@ -65,7 +74,6 @@ export default {
             }
             
         } catch (error) {
-            console.log("error", error);
             return{
                 oke: false,
                 error: error.message
@@ -78,25 +86,24 @@ export default {
 
         commit('SET_LOADING',true);
 
-
         try {
             var tokenUserLocal = localStorage.getItem('token');
 
-
-            console.log('tokenUser = ',tokenUserLocal);
-            
             var infoAcc = parseJwt(tokenUserLocal);
 
             console.log('infoAcc = ',infoAcc);
             
             if(infoAcc){
-                var infouser = await dispatch('getUserById',infoAcc.id);
-                
-                console.log('infouser = ',infouser.data);
-                
+
+                var infouser = dispatch('getUserById',infoAcc.id);
+
+                var infopost = dispatch('getPostListByUserId',infoAcc.id);
+
+                var [plusinfouser , plusinfopost] = await Promise.all([infouser,infopost ])
+
                 
                 let data = {
-                    user: infouser.data,
+                    user: plusinfouser.data,
                     token: tokenUserLocal
                 }
                 commit('SET_CURRENT_USER',data)
@@ -108,11 +115,8 @@ export default {
 
             if(result.data.status === 200){
 
-                // commit('SET_CURRENT_USER',result.data)
-                
                 return {
                     oke : true,
-                    data: result.data,
                     error: null
                 }
 
@@ -125,14 +129,67 @@ export default {
             }
             
         } catch (error) {
-            console.log("error", error);
             return{
                 oke: false,
                 error: error.message
             }
         }
     },
+
     logout({commit}){
         commit('LOG_OUT');
+    },
+    async getPostListByUserId({commit},userid){
+
+        try{
+
+            let getTokenFromLocalStorage = localStorage.getItem('token');
+
+            //truyền đi ID người dùng và Authorization để xác minh
+            let config = {
+                params:{
+                    userid
+                },
+                headers:{
+                    'accept': 'application/json, text/plain, */*, multipart/form-data',
+                    //xác thực người dùng tương ứng , gửi token lên server để xác thực
+                    //chú ý phải có dấu cách sau bearer
+                    'Authorization': 'Bearer ' + getTokenFromLocalStorage
+                }
+            }
+
+            var result = await axiosApi.get('/post/getListPostUserID.php',config);
+
+            console.log('result- postbyuserid = ', result.data.posts)
+
+            if(result.data.status === 200){
+
+                let data = {
+                    userid,
+                    post: result.data.posts
+                }
+                commit('SET_POST_USERID',data);
+
+                return {
+                    oke: true,
+                    data: result.data.posts,
+                    error: null
+                }
+
+            }
+            return{
+                oke: false,
+                error: error.message
+            }
+            
+        }
+        catch (error) {
+
+            return{
+                oke: false,
+                error: error.message
+            }
+
+        }
     }
 }

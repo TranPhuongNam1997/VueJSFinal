@@ -39,14 +39,15 @@
                             <span>Đăng bài</span>
                         </label>
                     </router-link>
-                    <router-link class="view-user" v-if="currentUser" :to="{ name: 'user-page', params: { id: currentUser.USERID }}" >
+                    <router-link v-if="!isLogin" to="/login" class="link-login">Đăng nhập</router-link>
+                    
+                    <router-link class="view-user" v-else-if="currentUser" :to="{ name: 'user-page', params: { id: currentUser.USERID }}" >
                         <span>{{currentUser.fullname}}</span>
                         <img :src="currentUser.profilepicture" alt="img" @error="getAvatarError" />
                         <span class="btn-logout">
                             <a href="#" @click.prevent="handleLogout">Đăng xuất</a>
                         </span>
                     </router-link>
-                    <router-link v-else to="/login" class="link-login">Đăng nhập</router-link>
                     
 
                 </div>
@@ -83,7 +84,7 @@ import convertVietnameseFromString from '../plugins/converturl'
             }
         },
         computed:{
-            ...mapGetters(['currentUser']),
+            ...mapGetters(['currentUser','isLogin']),
             categories(){
                 return this.$store.state.post.categories
             }

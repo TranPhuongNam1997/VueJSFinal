@@ -12,6 +12,8 @@ import UserProfile from './pages/UserProfile.vue'
 import Login from './pages/Login.vue'
 import NotFound from './pages/NotFound.vue'
 
+import {ifAuthenticated, notAuthenticated} from './plugins/authenticated'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -45,6 +47,7 @@ const routes = [
         path: '/login', 
         name: 'login',
         component: Login,
+        beforeEnter: notAuthenticated,
     },
     { 
         path: '/search', 

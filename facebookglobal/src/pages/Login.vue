@@ -86,7 +86,6 @@ import { mapActions } from 'vuex'
         methods:{
 
             ...mapActions(['Login']),
-
             handleLogin(){
                 let data = {
                     email: this.email,
