@@ -15,6 +15,7 @@ export default {
             
 
             if(result.data.status === 200){
+
                 console.log('ACTION USER result.data.user',result.data.user);
                 
                 commit('GET_USERBYID',result.data.user);
@@ -53,12 +54,17 @@ export default {
             if(result.data.status === 200){
 
                 
-
+                console.log('result.data = xx' , result.data);
+                
+                commit('GET_USERBYID',result.data.user);
                 commit('SET_CURRENT_USER',result.data);
+
+
 
                 //khi đăng nhập gửi userid để lấy danh sách bài viết của user đó
 
                 dispatch('getPostListByUserId',result.data.user.USERID);
+
                 return {
                     oke : true,
                     data: result.data.user,
@@ -188,6 +194,68 @@ export default {
             return{
                 oke: false,
                 error: error.message
+            }
+
+        }
+    },
+    async registor({commit,dispatch},{fullname= '',email= '',password= '',repassword= '',}){
+        commit('SET_LOADING',true);
+
+        try{
+
+            let objdata = {
+                fullname,
+                email,
+                password,
+                repassword
+            }
+            var result = await axiosApi.post('/member/register.php',objdata);
+            commit('SET_LOADING',false);
+
+            if(result.data.status === 200){
+
+                //Đăng ký xong thì không cần đăng nhập luôn 
+                
+                // Thực hiện lại y chang như login'
+                console.log('lay du lieu registor',result.data);
+                
+
+                commit('GET_USERBYID',result.data.user);
+
+                let objCurrentUser = {
+                    token : result.data.token,
+                    user : result.data.user
+                }
+                commit('SET_CURRENT_USER',objCurrentUser);
+
+                //khi đăng nhập gửi userid để lấy danh sách bài viết của user đó
+
+                dispatch('getPostListByUserId',result.data.user.USERID);
+
+
+                return {
+                    oke: true,
+                    data: result.data,
+                    error: null
+                }
+
+            }
+
+            return{
+                
+                oke: false,
+                error: result.data.error
+                
+            }
+            
+            
+        }
+        catch (error) {
+            commit('SET_LOADING',false);
+
+            return{
+                oke: false,
+                error: result.data.error
             }
 
         }
