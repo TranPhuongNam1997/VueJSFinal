@@ -41,6 +41,7 @@
 </template>
 <script>
 
+import $ from "jquery"
 
 import { mapActions } from 'vuex'
 import Register from './Register.vue'
@@ -63,6 +64,9 @@ import Register from './Register.vue'
                 }
                 this.Login(data).then(res => {
                     if(res.oke){
+
+                       
+
                         this.$router.push('/');
                         this.$notify({
                             group: 'foo',
@@ -93,6 +97,12 @@ import Register from './Register.vue'
                     }
                 })
             }
+        },
+        mounted(){
+            $(".btn-regis").click(function (event) {
+                $('.modal-backdrop').hide();
+                $('body').removeClass('modal-open');
+            });
         }
     }
 </script>

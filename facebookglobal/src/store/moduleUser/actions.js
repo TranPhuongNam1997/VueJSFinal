@@ -204,12 +204,13 @@ export default {
         try{
 
             let objdata = {
-                fullname,
-                email,
-                password,
-                repassword
+                fullname: fullname,
+                email: email,
+                password: password,
+                repassword: repassword
             }
             var result = await axiosApi.post('/member/register.php',objdata);
+
             commit('SET_LOADING',false);
 
             if(result.data.status === 200){
@@ -226,11 +227,15 @@ export default {
                     token : result.data.token,
                     user : result.data.user
                 }
+                console.log('objCurrentUser = ',objCurrentUser)
+
                 commit('SET_CURRENT_USER',objCurrentUser);
 
                 //khi đăng nhập gửi userid để lấy danh sách bài viết của user đó
 
                 dispatch('getPostListByUserId',result.data.user.USERID);
+
+                commit('SET_LOADING',false);
 
 
                 return {
