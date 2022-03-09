@@ -8,6 +8,7 @@ export default {
     },
 
     SET_CURRENT_USER(state,data){
+        
         state.currentUser = data.user;
         state.ACCESS_TOKEN = data.token;
         localStorage.setItem('token',data.token);

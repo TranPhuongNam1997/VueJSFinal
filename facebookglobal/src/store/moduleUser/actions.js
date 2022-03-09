@@ -86,6 +86,7 @@ export default {
             }
         }
     },
+
     // muc dich là khi load lại trang thì comvet jwt gui tài khoản user sang getUserById sau khi co được dữ lieeu thì đẩy sang mutation để lưu cái current user
 
     async checkLogin({commit,dispatch}) {
@@ -108,30 +109,28 @@ export default {
                 var [plusinfouser , plusinfopost] = await Promise.all([infouser,infopost ])
 
                 
-                let data = {
-                    user: plusinfouser.data,
-                    token: tokenUserLocal
+                
+                if(plusinfouser.oke && plusinfopost.oke){
+                    let data = {
+                        user: plusinfouser.data,
+                        token: tokenUserLocal
+                    }
+                    commit('SET_CURRENT_USER',data)
+                    return {
+                        oke : true,
+                        error: null
+                    }
+    
                 }
-                commit('SET_CURRENT_USER',data)
             }
 
             commit('SET_LOADING',false);
 
 
 
-            if(result.data.status === 200){
-
-                return {
-                    oke : true,
-                    error: null
-                }
-
-            }
-            else{
-                return{
-                    oke: false,
-                    error: error.message
-                }
+           
+            return{
+                oke: false,
             }
             
         } catch (error) {
