@@ -97,11 +97,6 @@ import { mapGetters } from 'vuex'
         },
         computed:{
             ...mapGetters(['currentUser']),
-            // imageProfile(){
-            //     return this.currentUser.profilepicture
-            // },
-            
-            
         },
         methods:{
             
@@ -121,36 +116,8 @@ import { mapGetters } from 'vuex'
                     }
                 }
             },
-            // uploadavt(e){
-
-            //     // this.avatar = e.target.files[0];
-
-            //     // const imageProfile = this.imageProfile;
-
-            //     const file = e.target.files[0];
-            //     const reader = new FileReader();
-
-            //     console.log('imageProfile ',this.imageProfile);
-                
-
-            //     reader.addEventListener("load", function () {
-            //         // convert image file to base64 string
-
-            //         this.imageProfile = reader.result;
-
-            //         console.log('imageProfile ',this.imageProfile);
-
-
-            //     }, false);
-
-            //     if (file) {
-            //         reader.readAsDataURL(file);
-            //     }
-                
-            // },
 
             uploadavt(e) {
-
                 var files = e.target.files || e.dataTransfer.files;
 
                 if (files.length){
