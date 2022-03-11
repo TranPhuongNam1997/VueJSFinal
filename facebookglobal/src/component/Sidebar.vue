@@ -5,13 +5,13 @@
             <div class="mt-2">Vui lòng bấm <router-link to="/login" class="link-post-login">Đăng nhập</router-link> để xem nội dung này</div>
         </div>
         <template v-if="getterPostCurrentUser && getterPostCurrentUser.length">
-                <post-item 
-                    v-for="item in getterPostCurrentUser" 
-                    :key="item.PID"
-                    :post="item"
-                />
+            <post-item 
+                v-for="item in getterPostCurrentUser" 
+                :key="item.PID"
+                :post="item"
+            />
 
-            </template>
+        </template>
     </div>
 </template>
 

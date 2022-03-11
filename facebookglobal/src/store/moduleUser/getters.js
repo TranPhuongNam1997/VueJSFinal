@@ -2,9 +2,9 @@ import {parseJwt} from '../../helper/index'
 
 export default {
     isLogin: state => {
-        console.log('state.ACCESS_TOKEN = ',state.ACCESS_TOKEN)
+        // console.log('state.ACCESS_TOKEN = ',state.ACCESS_TOKEN)
         let checkToken = parseJwt(state.ACCESS_TOKEN);
-        console.log('checkToken = ',checkToken);
+        // console.log('checkToken = ',checkToken);
         
         if(checkToken){
             return true

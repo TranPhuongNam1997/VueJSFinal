@@ -16,7 +16,7 @@ export default {
 
             if(result.data.status === 200){
 
-                console.log('ACTION USER result.data.user',result.data.user);
+                // console.log('ACTION USER result.data.user',result.data.user);
                 
                 commit('GET_USERBYID',result.data.user);
                 
@@ -54,7 +54,7 @@ export default {
             if(result.data.status === 200){
 
                 
-                console.log('result.data = xx' , result.data);
+                // console.log('result.data = xx' , result.data);
                 
                 commit('GET_USERBYID',result.data.user);
                 commit('SET_CURRENT_USER',result.data);
@@ -98,7 +98,7 @@ export default {
 
             var infoAcc = parseJwt(tokenUserLocal);
 
-            console.log('infoAcc = ',infoAcc);
+            // console.log('infoAcc = ',infoAcc);
             
             if(infoAcc){
 
@@ -165,7 +165,7 @@ export default {
 
             var result = await axiosApi.get('/post/getListPostUserID.php',config);
 
-            console.log('result- postbyuserid = ', result.data.posts)
+            // console.log('result- postbyuserid = ', result.data.posts)
 
             if(result.data.status === 200){
 
@@ -177,7 +177,7 @@ export default {
 
                 return {
                     oke: true,
-                    data: result.data.posts,
+                    data: result.data.posts || [],
                     error: null
                 }
 
@@ -217,7 +217,7 @@ export default {
                 //Đăng ký xong thì không cần đăng nhập luôn 
                 
                 // Thực hiện lại y chang như login'
-                console.log('lay du lieu registor',result.data);
+                // console.log('lay du lieu registor',result.data);
                 
 
                 commit('GET_USERBYID',result.data.user);
@@ -226,7 +226,7 @@ export default {
                     token : result.data.token,
                     user : result.data.user
                 }
-                console.log('objCurrentUser = ',objCurrentUser)
+                // console.log('objCurrentUser = ',objCurrentUser)
 
                 commit('SET_CURRENT_USER',objCurrentUser);
 

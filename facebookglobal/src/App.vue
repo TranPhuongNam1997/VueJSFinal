@@ -45,5 +45,9 @@ export default {
 }
 </script>
 <style>
-	
+	.post-img a img {
+		display: block;
+		height: 350px;
+		object-fit: cover;
+	}
 </style>

@@ -22,7 +22,7 @@
                     return this.post.profilepicture
                 }
 
-                return 'http://humg.edu.vn/Publishing_Resources/web/images/noavatar.gif'
+                return 'https://png.pngtree.com/png-clipart/20200701/original/pngtree-cat-default-avatar-png-image_5416936.jpg'
             },
             linkProfile(){
                 return {
@@ -40,7 +40,8 @@
         },
         methods:{
             getAvatarError(event) { 
-                event.target.src = "http://humg.edu.vn/Publishing_Resources/web/images/noavatar.gif" 
+                // event.target.src = "http://humg.edu.vn/Publishing_Resources/web/images/noavatar.gif" 
+                event.target.src = "https://png.pngtree.com/png-clipart/20200701/original/pngtree-cat-default-avatar-png-image_5416936.jpg" 
             }
         },
         props:{

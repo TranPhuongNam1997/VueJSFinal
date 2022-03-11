@@ -16,14 +16,7 @@ import { mapActions } from 'vuex'
         return {};
     },
     methods:{
-        // ...mapActions(['getListPostAll']),
-        // getListPost(){
-        //     let data = {
-        //         PAGE_SIZE: 3,
-        //         CURR_PAGE: 1
-        //     }
-        //     return this.dispatch(getListPostAll(data));
-        // }
+        
     },
     props:{
         post:{
@@ -34,3 +27,9 @@ import { mapActions } from 'vuex'
     components: { HeadPostItem, BodyPostItem, FootPostItem }
 }
 </script>
+
+<style>
+.post-item{
+    box-shadow: 0 1px 3px rgb(0 0 0 / 20%);
+}
+</style>
