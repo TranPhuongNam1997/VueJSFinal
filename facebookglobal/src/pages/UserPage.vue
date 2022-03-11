@@ -24,9 +24,9 @@
                         </button>
                         <template v-else>
                             <a href="javascript:0;" class="ripple">
-                                                        <i class="fa fa-key"></i>
-                                                        Đổi mật khẩu
-                                                    </a>
+                                <i class="fa fa-key"></i>
+                                Đổi mật khẩu
+                            </a>
                             <router-link :to="{name: 'user-profile',params: {id: infouser.USERID}}" class="ripple">
                                 <img class=""
                                     src="https://static.xx.fbcdn.net/rsrc.php/v3/yW/r/OR6SzrfoMFg.png" alt=""

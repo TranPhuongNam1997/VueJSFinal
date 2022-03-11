@@ -4,40 +4,63 @@
             <div class="col-lg-6">
                 <div class="post-upload mb-5">
                     <h3 class="title-post">Chỉnh sửa Trang cá nhân</h3>
-                    <div class="post-upload-box">
-                        <div class="font-weight-bold">Ảnh đại diện</div>
-                        <div class="avatar-upload">
-                            <div class="avatar-edit">
-                                <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg"/>
-                                <label for="imageUpload"></label>
-                            </div>
-                            <div class="avatar-preview">
-                                <div id="imagePreview"
-                                        style="background-image: url('https://scontent.fhan5-2.fna.fbcdn.net/v/t1.6435-9/109116642_278706606677722_7309285219947855714_n.jpg?_nc_cat=102&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=dV2by5ahqQQAX_cZsWB&_nc_ht=scontent.fhan5-2.fna&oh=15fafd432a1a375010a9447b460b316d&oe=60DFB4DC');">
+                    <form class="post-upload-box" @submit.prevent="handleChangeProfile">
+                        <template v-if="this.currentUser">
+                            <!-- Ảnh -->
+                            <div class="font-weight-bold">Ảnh đại diện</div>
+                            <div class="avatar-upload">
+                                <div class="avatar-edit">
+                                    <input type='file' 
+                                        id="imageUpload" 
+                                        accept=".png, .jpg, .jpeg"
+                                        @change="uploadavt"
+                                    />
+                                    <label for="imageUpload" class="btn-up">
+                                        <img src="/dist/img/pencil.png" alt="">
+                                    </label>
+                                </div>
+                                <div class="avatar-preview">
+                                    <div id="imagePreview"
+                                        :style="{'background-image': 'url(' + this.imageProfile + ')'}">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="field-ip">
-                            <input type="text" placeholder="Họ tên...">
-                        </div>
-                        <div class="field-ip">
-                            <select required>
-                                <option disabled value="" selected>Giới tính</option>
-                                <option value="1">Nam</option>
-                                <option value="2">Nữ</option>
-                                <option value="3">Khác</option>
-                            </select>
-                        </div>
+                            <!-- Họ tên -->
+                            <div class="field-ip">
+                                <input 
+                                    @input="fullname = $event.target.value"
+                                    :value="currentUser.fullname"
+                                    type="text" 
+                                    placeholder="Họ tên..." >
+                            </div>
+                            <!-- Giới tính -->
+                            <div class="field-ip">
+                                <select required
+                                    @change="gender = $event.target.value"  
+                                    :value="currentUser.gender"  
+                                >
+                                    <option disabled value="" selected>Giới tính</option>
+                                    <option value="nam">Nam</option>
+                                    <option value="nữ">Nữ</option>
+                                    <option value="khác">Khác</option>
+                                </select>
+                            </div>
+                            <!-- Tiểu sử -->
+                            <div class="field-ip">
+                                <textarea 
+                                    placeholder="Tiểu sử ngắn"
+                                    @input="description = $event.target.value"
+                                    :value="currentUser.description"
+                                >
+                                </textarea>
+                            </div>
 
-                        <div class="field-ip">
-                            <textarea placeholder="Tiểu sử ngắn"></textarea>
-                        </div>
-
-                        <div class="text-center mt-3 mb-3">
-                            <button class="btn-lightblue">Chỉnh sửa thông tin giới thiệu</button>
-                        </div>
-                    </div>
-
+                            <div class="text-center mt-3 mb-3">
+                                <button class="btn-lightblue" type="submit">Chỉnh sửa thông tin giới thiệu</button>
+                            </div>
+                        </template>
+                        
+                    </form>
 
                 </div>
             </div>
@@ -49,14 +72,115 @@
     </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+
     export default{
         name: 'UserProfile',
         data(){
             return {
-
+                userId: this.$route.params.id,
+                fullname:'',
+                gender: '',
+                description: '',
+                // avatar: null,
+                imageProfile: ''
             }
-        }
+        },
+        watch: {
+            '$route' (to, from) {
+                this.userId = to.params.id;
+                this.chekUserEdit();
+            }
+        },
+        created(){
+            this.chekUserEdit()
+        },
+        computed:{
+            ...mapGetters(['currentUser']),
+            // imageProfile(){
+            //     return this.currentUser.profilepicture
+            // },
+            
+            
+        },
+        methods:{
+            
+            handleChangeProfile(){
+                let data = {
+                    fullname: this.fullname,
+                    gender: this.gender,
+                    description: this.description
+                }
+                console.log('data profile edit = ',data);
+                
+            },
+            chekUserEdit(){
+                if(this.userId && this.currentUser){
+                    if(this.userId != this.currentUser.USERID){
+                        this.$router.push('/')
+                    }
+                }
+            },
+            // uploadavt(e){
+
+            //     // this.avatar = e.target.files[0];
+
+            //     // const imageProfile = this.imageProfile;
+
+            //     const file = e.target.files[0];
+            //     const reader = new FileReader();
+
+            //     console.log('imageProfile ',this.imageProfile);
+                
+
+            //     reader.addEventListener("load", function () {
+            //         // convert image file to base64 string
+
+            //         this.imageProfile = reader.result;
+
+            //         console.log('imageProfile ',this.imageProfile);
+
+
+            //     }, false);
+
+            //     if (file) {
+            //         reader.readAsDataURL(file);
+            //     }
+                
+            // },
+
+            uploadavt(e) {
+
+                var files = e.target.files || e.dataTransfer.files;
+
+                if (files.length){
+                    this.createImage(files[0])
+                }
+            },
+
+            createImage(file) {
+                var reader = new FileReader();
+                var vm = this;
+
+                reader.onload = (e) => {
+                    vm.imageProfile = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
+        },
+        
     }
 </script>
 <style>
+.avatar-upload .avatar-edit input + label:after{
+    display: none;
+}
+.btn-up img{
+    width: 15px;
+}
+.btn-up{
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
 </style>
