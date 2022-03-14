@@ -63,7 +63,7 @@ import { mapActions, mapGetters } from "vuex"
                 }
             },
 
-            ...mapActions(['atcchangePassword']),
+            ...mapActions(['atcchangePassword','logout']),
 
             handleChangePassword(){
 
@@ -113,6 +113,9 @@ import { mapActions, mapGetters } from "vuex"
                         this.oldPassword = '';
                         this.newPassword = '';
                         this.reNewPassword = '';
+
+                        this.logout();
+                        this.$router.push('/login')
 
                     }
                     else{

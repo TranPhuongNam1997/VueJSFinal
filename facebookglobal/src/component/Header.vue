@@ -19,10 +19,10 @@
                             </svg>
                         </a>
                     </router-link>
-                    <div class="box-search">
-                        <input type="text" placeholder="Tìm kiếm trên Facebook">
+                    <form @submit.prevent="handleSearch" class="box-search">
+                        <input v-model="textsearch" type="text" placeholder="Tìm kiếm trên Facebook">
                         <i class="hu5pjgll m6k467ps"></i>
-                    </div>
+                    </form>
                 </div>
                 <div class="header-right">
                     <button class="btn-category" type="button">
@@ -81,6 +81,7 @@ import convertVietnameseFromString from '../plugins/converturl'
         name: 'app-header',
         data(){
             return{
+                textsearch: ''
             }
         },
         computed:{
@@ -129,7 +130,18 @@ import convertVietnameseFromString from '../plugins/converturl'
                     title: 'Thông báo',
                     text: 'Bạn đã đăng xuất thành công'
                 });
+            },
+            handleSearch(){
+                if(this.textsearch){
+                    this.$router.push({
+                        name: 'search',
+                        query:{
+                            textQuery: this.textsearch
+                        }
+                    })
+                }
             }
+            
             
         },
         mounted(){
@@ -150,6 +162,10 @@ import convertVietnameseFromString from '../plugins/converturl'
     }
 </script>
 <style>
+.box-search i{
+    background-image: url('https://static.xx.fbcdn.net/rsrc.php/v3/yI/r/ksSGEBnVLNu.png');
+    background-position: -17px -109px;
+}
 .nav-block ul{
     width: 100%;
     column-count: 3;

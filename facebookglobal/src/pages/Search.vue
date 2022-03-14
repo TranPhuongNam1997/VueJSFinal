@@ -1,119 +1,63 @@
 <template>
     <div class="container">
-        <div class="key-search mb-2">Có phải bạn muốn tìm: <span>abc</span></div>
-        <div class="mb-4 fs-14">Khoảng 199.000 kết quả </div>
+        <div class="key-search mb-2">Có phải bạn muốn tìm: <span>{{this.textSearch}}</span></div>
+        <div class="mb-4 fs-14">Khoảng {{this.listPostSearch.length}} kết quả </div>
         <div class="row">
-            <div class="col-lg-6">
-                <div class="post-list">
-                    <div class="post-item">
-                        <div class="post-item-flex">
-                            <a href="#" class="box-img"><img src="img/avt-post.jpg" alt="img"></a>
-                            <div>
-                                <a href="#" class="name-post">Trần Nam</a>
-                                <div class="post-time">1 giờ trước <i class="hu5pjgll m6k467ps"></i></div>
-                            </div>
-                        </div>
-                        <div class="post-status">
-                            Tà xùa ngày trở lại
-                        </div>
-                        <div class="post-img">
-                            <a href="#">
-                                <img src="img/post-img.jpg" alt="img" class="w-100">
-                            </a>
-                        </div>
-                        <div class="count-cmt">
-                            <a href="#">
-                                <i></i>123 bình luận
-                            </a>
-                        </div>
-                    </div>
-                    <div class="post-item">
-                        <div class="post-item-flex">
-                            <a href="#" class="box-img"><img src="img/avt-post.jpg" alt="img"></a>
-                            <div>
-                                <a href="#" class="name-post">Trần Nam</a>
-                                <div class="post-time">1 giờ trước <i class="hu5pjgll m6k467ps"></i></div>
-                            </div>
-                        </div>
-                        <div class="post-status">
-                            Tà xùa ngày trở lại
-                        </div>
-                        <div class="post-img">
-                            <a href="#">
-                                <img src="img/post-img.jpg" alt="img" class="w-100">
-                            </a>
-                        </div>
-                        <div class="count-cmt">
-                            <a href="#">
-                                <i></i>123 bình luận
-                            </a>
-                        </div>
-                    </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <div class="post-list" v-if="listPostSearch && listPostSearch.length">
+                    
+                    <post-item
+                        v-for="item in listPostSearch" 
+                        :key="item.PID"
+                        :post="item"
+                    />
 
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="post-list">
-                    <div class="post-item">
-                        <div class="post-item-flex">
-                            <a href="#" class="box-img"><img src="img/avt-post.jpg" alt="img"></a>
-                            <div>
-                                <a href="#" class="name-post">Trần Nam</a>
-                                <div class="post-time">1 giờ trước <i class="hu5pjgll m6k467ps"></i></div>
-                            </div>
-                        </div>
-                        <div class="post-status">
-                            Tà xùa ngày trở lại
-                        </div>
-                        <div class="post-img">
-                            <a href="#">
-                                <img src="img/post-img.jpg" alt="img" class="w-100">
-                            </a>
-                        </div>
-                        <div class="count-cmt">
-                            <a href="#">
-                                <i></i>123 bình luận
-                            </a>
-                        </div>
-                    </div>
-                    <div class="post-item">
-                        <div class="post-item-flex">
-                            <a href="#" class="box-img"><img src="img/avt-post.jpg" alt="img"></a>
-                            <div>
-                                <a href="#" class="name-post">Trần Nam</a>
-                                <div class="post-time">1 giờ trước <i class="hu5pjgll m6k467ps"></i></div>
-                            </div>
-                        </div>
-                        <div class="post-status">
-                            Tà xùa ngày trở lại
-                        </div>
-                        <div class="post-img">
-                            <a href="#">
-                                <img src="img/post-img.jpg" alt="img" class="w-100">
-                            </a>
-                        </div>
-                        <div class="count-cmt">
-                            <a href="#">
-                                <i></i>123 bình luận
-                            </a>
-                        </div>
-                    </div>
+            <div class="col-lg-2"></div>
 
-                </div>
-            </div>
-
+            
         </div>
 
     </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
+import PostItem from '../component/PostItem.vue'
     export default{
+  components: { PostItem },
         name: 'Search',
         data(){
             return {
-
+                textSearch: this.$route.query.textQuery,
+                listPostSearch: []
+            }
+        },
+        watch: {
+            '$route'(to, from) {
+                this.textSearch = to.query.textQuery;
+                this.fetchDataSearch()
+            }
+        },
+        created(){
+            this.fetchDataSearch()
+        },
+        methods:{
+            ...mapActions(['getPostSearch']),
+            fetchDataSearch(){
+                if(this.textSearch){
+                    this.getPostSearch(this.textSearch).then(res =>{
+                        // console.log(res);
+                        if(res.oke){
+                            this.listPostSearch = res.data.posts
+                        }
+                    })
+                }
+                
             }
         }
+
     }
 </script>
 <style>

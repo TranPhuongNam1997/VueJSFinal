@@ -62,4 +62,32 @@ export default {
             }
         }
     },
+    async getPostSearch({commit}, textsearch) {
+
+        commit('SET_LOADING',true);
+
+        try {
+
+            var result = await axiosApi.get('/post/search.php?query=' + textsearch);
+
+            if(result.data.status === 200){
+
+                console.log('result.data',result.data);
+                commit('SET_LOADING',false);
+
+                return {
+                    oke : true,
+                    data: result.data,
+                    error: null
+                }
+
+            }
+            
+        } catch (error) {
+            return{
+                oke: false,
+                error: error
+            }
+        }
+    },
 }
