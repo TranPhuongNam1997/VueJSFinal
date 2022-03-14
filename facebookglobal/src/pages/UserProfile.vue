@@ -21,7 +21,7 @@
                                 </div>
                                 <div class="avatar-preview">
                                     <div id="imagePreview"
-                                        :style="{'background-image': 'url(' + this.imageProfile + ')'}">
+                                        :style="{'background-image': 'url(' + getAvt + ')'}">
                                     </div>
                                 </div>
                             </div>
@@ -39,7 +39,7 @@
                                     @change="gender = $event.target.value"  
                                     :value="currentUser.gender"  
                                 >
-                                    <option disabled value="" selected>Giới tính</option>
+                                    <option disabled value="">Giới tính</option>
                                     <option value="nam">Nam</option>
                                     <option value="nữ">Nữ</option>
                                     <option value="khác">Khác</option>
@@ -72,7 +72,7 @@
     </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
     export default{
         name: 'UserProfile',
@@ -82,8 +82,11 @@ import { mapGetters } from 'vuex'
                 fullname:'',
                 gender: '',
                 description: '',
-                // avatar: null,
-                imageProfile: ''
+                avatar: {
+                    objFile: null,
+                    base64: ''
+                },
+                // imageProfile: ''
             }
         },
         watch: {
@@ -97,16 +100,62 @@ import { mapGetters } from 'vuex'
         },
         computed:{
             ...mapGetters(['currentUser']),
+            getAvt(){
+                if(this.avatar.base64 === '' && this.currentUser ){
+                    return this.currentUser.profilepicture
+                }
+                else{
+                    return this.avatar.base64
+                }
+            }
         },
         methods:{
-            
+            ...mapActions(['actupdateProfile']),
             handleChangeProfile(){
+
+                // check nếu không có giá trị thì trả về giá trị mặc định
+
+                if(!this.fullname) this.fullname = this.currentUser.fullname
+                if(!this.gender) this.gender = this.currentUser.gender
+                if(!this.description) this.description = this.currentUser.description
+
+
                 let data = {
                     fullname: this.fullname,
                     gender: this.gender,
                     description: this.description
                 }
+
+                if(this.avatar){
+                    data.avatar = this.avatar.objFile
+                }
+
+                if(data){
+                    this.actupdateProfile(data).then(res =>{
+                        if(!res.oke){
+                            this.$notify({
+                                group: 'foo',
+                                type: 'error',
+                                title: 'Thông báo',
+                                text: 'Cập nhât trang cá nhân thất bại'
+                            });
+                        }
+                        else{
+                            // this.$router.push('/');
+                            this.$notify({
+                                group: 'foo',
+                                type: 'success',
+                                title: 'Thông báo',
+                                text: 'Cập nhật trang cá nhân thành công'
+                            });
+                        }
+                        
+                    })
+                }
+
                 console.log('data profile edit = ',data);
+
+
                 
             },
             chekUserEdit(){
@@ -130,7 +179,11 @@ import { mapGetters } from 'vuex'
                 var vm = this;
 
                 reader.onload = (e) => {
-                    vm.imageProfile = e.target.result;
+
+                    vm.avatar.base64 = e.target.result;
+                    vm.avatar.objFile = file
+
+                    console.log(vm.avatar.objFile)
                 };
                 reader.readAsDataURL(file);
             },

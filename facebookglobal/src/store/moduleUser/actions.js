@@ -263,5 +263,121 @@ export default {
             }
 
         }
-    }
+    },
+
+    async actupdateProfile({commit},{fullname= '',description= '',gender= '',avatar= null}){
+        commit('SET_LOADING',true);
+
+        try {
+            var bodyFormData = new FormData();
+
+            bodyFormData.append('fullname', fullname);
+            bodyFormData.append('description', description);
+            bodyFormData.append('gender', gender);
+
+            bodyFormData.append('avatar', avatar); 
+
+
+            let getTokenFromLocalStorage = localStorage.getItem('token');
+
+            let config = {
+                
+                headers:{
+                    'Content-Type' : 'multipart/form-data',
+                    'Authorization': 'Bearer ' + getTokenFromLocalStorage
+                }
+            }
+
+            var result = await axiosApi.post('/member/update.php',bodyFormData,config);
+
+            commit('SET_LOADING',false);
+
+            if(result.data.status === 200){
+
+                console.log('result profile ',result.data)
+
+                commit('SET_CURRENTUSER_UPDATE',result.data.user);
+
+                return {
+                    oke: true,
+                    data: result.data.user,
+                    error: null
+                }
+
+            }
+
+            return{
+                oke: false,
+                error: result.data.message
+            }
+            
+        } catch (error) {
+            commit('SET_LOADING',false);
+
+            return{
+                oke: false,
+                error: error.message
+            }
+        }
+    },
+
+
+    async atcchangePassword({commit},{oldPassword= '',newPassword= '',reNewPassword= ''}){
+        commit('SET_LOADING',true);
+
+        try{
+
+            let getTokenFromLocalStorage = localStorage.getItem('token');
+
+            let objdata = {
+                oldPassword: oldPassword,
+                newPassword: newPassword,
+                reNewPassword: reNewPassword,
+            }
+
+            let config = {
+                
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'Authorization': 'Bearer ' + getTokenFromLocalStorage
+                }
+            }
+
+            var result = await axiosApi.post('/member/password.php',objdata,config);
+
+            commit('SET_LOADING',false);
+
+            console.log('data Change',result.data)
+
+            if(result.data.status === 200){
+                
+
+
+                return {
+                    oke: true,
+                    data: result.data.message,
+                    error: null
+                }
+
+            }
+
+            return{
+                
+                oke: false,
+                error: result.data.error
+                
+            }
+            
+            
+        }
+        catch (error) {
+            commit('SET_LOADING',false);
+
+            return{
+                oke: false,
+                error: error
+            }
+
+        }
+    },
 }

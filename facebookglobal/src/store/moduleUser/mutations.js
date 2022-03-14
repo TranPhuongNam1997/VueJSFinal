@@ -25,4 +25,8 @@ export default {
         Vue.set(state.postListUser, userid, post)
 
     },
+
+    SET_CURRENTUSER_UPDATE(state,data){
+        state.currentUser = data
+    }
 }

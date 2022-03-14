@@ -23,10 +23,11 @@
                             Theo dõi
                         </button>
                         <template v-else>
-                            <a href="javascript:0;" class="ripple">
+                            <router-link :to="{name: 'change-pass',params: {id: infouser.USERID}}" class="ripple">
                                 <i class="fa fa-key"></i>
                                 Đổi mật khẩu
-                            </a>
+                            </router-link>
+
                             <router-link :to="{name: 'user-profile',params: {id: infouser.USERID}}" class="ripple">
                                 <img class=""
                                     src="https://static.xx.fbcdn.net/rsrc.php/v3/yW/r/OR6SzrfoMFg.png" alt=""
@@ -50,9 +51,7 @@
                                 :key="item.PID"
                                 :post="item"
                             />
-
                         </template>
-
                     </div>
                 </div>
             </div>
