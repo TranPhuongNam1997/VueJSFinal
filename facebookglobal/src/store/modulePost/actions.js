@@ -91,7 +91,7 @@ export default {
             }
         }
     },
-    async atcCreateNewPost({commit}, {url_image = '',post_content='',category=null ,obj_image = ''}) {
+    async atcCreateNewPost({commit}, {url_image = '',post_content='',category='' ,obj_image = null}) {
 
         commit('SET_LOADING',true);
         
@@ -101,11 +101,21 @@ export default {
 
             let getTokenFromLocalStorage = localStorage.getItem('token');
 
-            let objdata = {
-                url_image: url_image,
-                post_content: post_content,
-                category: category,
-                obj_image: obj_image
+            // let objdata = {
+            //     url_image: url_image,
+            //     post_content: post_content,
+            //     category: category,
+            //     obj_image: obj_image
+            // }
+
+            var bodyFormData = new FormData();
+
+            bodyFormData.append('url_image', url_image);
+            bodyFormData.append('post_content', post_content);
+            bodyFormData.append('category', category);
+
+            if(obj_image){
+                bodyFormData.append('obj_image', obj_image); 
             }
 
             let config = {
@@ -115,7 +125,7 @@ export default {
                     'Authorization': 'Bearer ' + getTokenFromLocalStorage
                 }
             }
-            var result = await axiosApi.post('/post/addNew.php',objdata,config);
+            var result = await axiosApi.post('/post/addNew.php',bodyFormData,config);
 
             if(result.data.status === 200){
 

@@ -53,7 +53,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex';
-    import  {checkFormatImage} from '../helper';
+    import  {checkImageURL,checkImageFile} from '../helper';
     export default{
         name: 'PostUpload',
         data(){
@@ -74,7 +74,10 @@ import { mapActions } from 'vuex';
             },
 
             getImageUpload(){
-                if(this.obj_image.base64){
+                if(this.url_image) return this.url_image
+
+
+                else if(this.obj_image.base64){
                     return this.obj_image.base64
                 }
                 return 'https://png.pngtree.com/png-clipart/20200701/original/pngtree-cat-default-avatar-png-image_5416936.jpg'
@@ -90,11 +93,18 @@ import { mapActions } from 'vuex';
                 var files = e.target.files || e.dataTransfer.files;
 
                 //check xem ảnh có đúng định dạng không
+               
+                if(!checkImageFile(files[0])){
+                    this.$notify({
+                        group: 'foo',
+                        type: 'error',
+                        title: 'Thông báo',
+                        text: 'File tải lên không hợp lệ'
+                    });
+                    return;
+                }
 
-                // var check = checkFormatImage(files[0])
-                // if(!check){
-                //     return;
-                // }
+
                 if (files.length){
                     this.createImage(files[0])
                 }
@@ -134,6 +144,7 @@ import { mapActions } from 'vuex';
                     category: this.category,
                     obj_image: this.obj_image.objFile
                 }
+                console.log('data =',data);
                 this.atcCreateNewPost(data).then(res=>{
                     if(res.oke){
                         console.log('res = ',res)

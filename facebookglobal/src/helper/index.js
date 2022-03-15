@@ -16,17 +16,33 @@ const replaceAll =  (string, search, replace) => {
     return string.split(search).join(replace);
 }
 
-const checkFormatImage = (img) => {
-    var isValid = /\.jpe?g$/i.test(img);
-    if (!isValid) {
-        alert('không đúng định đạng hình ảnh')
+const checkImageURL = (imageURL) => {
+    if(!imageURL.match(/^(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)$/i)) {
+        return false;
+    }
+    return true;
+};
+
+const checkImageFile = (file) => {
+    let filename = file.name;
+    let type = file.type;
+
+    if(filename.lastIndexOf(".") == -1) {
+        return false
     }
 
-    return isValid;
-  };
+    if( type.lastIndexOf('png') != -1 || type.lastIndexOf('jpeg') != -1 || 
+        type.lastIndexOf('jpg') != -1 || type.lastIndexOf('gif') != -1 ) {
+        return true
+    }
+
+    return false;
+
+}
 
 export {
     parseJwt,
     replaceAll,
-    checkFormatImage
+    checkImageURL,
+    checkImageFile
 } 
