@@ -34,7 +34,7 @@ const routes = [
         component: PostDetail,
     },
     { 
-        path: '/post-upload/:id', 
+        path: '/post-upload', 
         name: 'post-upload',
         component: PostUpload,
     },

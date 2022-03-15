@@ -68,6 +68,7 @@ export default {
 
         try {
 
+            
             var result = await axiosApi.get('/post/search.php?query=' + textsearch);
 
             if(result.data.status === 200){
@@ -90,4 +91,51 @@ export default {
             }
         }
     },
+    async atcCreateNewPost({commit}, {url_image = '',post_content='',category=null ,obj_image = ''}) {
+
+        commit('SET_LOADING',true);
+        
+
+
+        try {
+
+            let getTokenFromLocalStorage = localStorage.getItem('token');
+
+            let objdata = {
+                url_image: url_image,
+                post_content: post_content,
+                category: category,
+                obj_image: obj_image
+            }
+
+            let config = {
+                
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'Authorization': 'Bearer ' + getTokenFromLocalStorage
+                }
+            }
+            var result = await axiosApi.post('/post/addNew.php',objdata,config);
+
+            if(result.data.status === 200){
+
+                console.log('result.data',result.data);
+                commit('SET_LOADING',false);
+
+                return {
+                    oke : true,
+                    data: result.data,
+                    error: null
+                }
+
+            }
+            
+        } catch (error) {
+            return{
+                oke: false,
+                error: error
+            }
+        }
+    },
+
 }

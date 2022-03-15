@@ -33,7 +33,7 @@
                         </svg>
                         <span>Danh mục</span>
                     </button>
-                    <router-link to="/post-upload/:id" class="upload-post">
+                    <router-link to="/post-upload" class="upload-post">
                         <label tabindex="0" class="input-file-trigger">
                             <img src="/dist/img/icon-upload-light-12.svg" alt="">
                             <span>Đăng bài</span>
@@ -58,7 +58,7 @@
             <div class="container">
                 <div class="nav-block">
                     <ul>
-                        <li v-for="item in categories" :key="item.id">
+                        <li v-for="item in this.categories" :key="item.id">
                             <router-link :to="urlCategory(item)">{{item.text}}</router-link>
                         </li>
                     </ul>

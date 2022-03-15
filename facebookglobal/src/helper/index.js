@@ -12,6 +12,21 @@ const parseJwt = (token) => {
     }
 }
 
+const replaceAll =  (string, search, replace) => {
+    return string.split(search).join(replace);
+}
+
+const checkFormatImage = (img) => {
+    var isValid = /\.jpe?g$/i.test(img);
+    if (!isValid) {
+        alert('không đúng định đạng hình ảnh')
+    }
+
+    return isValid;
+  };
+
 export {
-    parseJwt
+    parseJwt,
+    replaceAll,
+    checkFormatImage
 } 

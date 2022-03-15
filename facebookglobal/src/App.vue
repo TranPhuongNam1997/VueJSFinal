@@ -50,4 +50,9 @@ export default {
 		height: 350px;
 		object-fit: cover;
 	}
+	.mark, mark{
+		padding: 0;
+		color: #2E70EC;
+		background: transparent;
+	}
 </style>

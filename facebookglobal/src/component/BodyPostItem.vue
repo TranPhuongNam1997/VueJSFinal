@@ -1,8 +1,12 @@
 <template>
     <div>
-        <div class="post-status">
-            {{post.post_content}}
+        <div class="post-status" v-if="!this.textSearch">
+            {{statusPost}}
         </div>
+        
+        <div class="post-status" v-else v-html="statusPost">
+        </div>
+
         <div class="post-img">
             <router-link :to="toPostDetail">
                 <img @error="getImageError" :src="getImagePost" alt="img" class="w-100">
@@ -11,12 +15,18 @@
     </div>
 </template>
 <script>
+import {replaceAll} from '../helper'
 import { mapActions } from 'vuex'
     export default{
         name:'body-postitem',
         data(){
             return{
-                
+                textSearch: this.$route.query.textQuery,
+            }
+        },
+        watch: {
+            '$route'(to, from) {
+                this.textSearch = to.query.textQuery;
             }
         },
 
@@ -32,9 +42,20 @@ import { mapActions } from 'vuex'
                 return {
                     name: 'post-detail',
                     params:{
-                        id: this.post.PID
+                        id: this.post.PID ||1
                     }
                 }
+            },
+            statusPost(){
+                if(this.textSearch){
+                    if(this.post.post_content){
+                        return replaceAll(this.post.post_content.toLowerCase(),this.textSearch.toLowerCase(), `<mark>${this.textSearch}</mark>`)
+                    }
+                }
+                else{
+                    return this.post.post_content
+                }
+                
             }
             
         },
