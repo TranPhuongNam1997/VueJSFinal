@@ -15,7 +15,8 @@ export default {
                     profilepicture: dataUser.profilepicture
 
                 },
-                categories: state.postDetail.categories
+                categories: state.postDetail.categories,
+                comments: state.postDetail.comments
             }
             return dataPostDetail
         }

@@ -75,5 +75,6 @@ export default {
             text: 'Giang hồ',
             id: 24
         }
-    ]
+    ],
+    // comments: []
 }

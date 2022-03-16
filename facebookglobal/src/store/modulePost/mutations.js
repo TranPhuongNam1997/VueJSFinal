@@ -11,5 +11,11 @@ export default {
         state.postDetail = data;
         
     },
+    // GET_COMMENT(state,data){
+    //     state.comments = data
+    // },
+    SET_COMMENT(state, comment){
+        state.postDetail.comments.push(comment)
+    }
 
 }

@@ -16,13 +16,14 @@
                 </ul>
             </div>
         </a>
-        <a href="#">
+        <router-link :to="{name: 'post-detail',params:{id: this.post.PID ||1 }}">
             <i data-visualcompletion="css-img" class="hu5pjgll m6k467ps" style="background-image:url('https://static.xx.fbcdn.net/rsrc.php/v3/yH/r/nileVELu9Gk.png');background-position:0 -209px;background-size:auto;width:18px;height:18px;background-repeat:no-repeat;display:inline-block"></i>
             {{countComment}} bình luận
-        </a>
+        </router-link>
     </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
     export default{
         name:'foot-postitem',
         data(){
@@ -38,11 +39,16 @@
             }
         },
         computed:{
+            ...mapGetters(['postDetail']),
             countComment(){
                 var numberComment = parseInt(this.post.count)
                 if(numberComment){
                     return numberComment
                 }
+
+                // else if(this.postDetail.comments){
+                //     return this.postDetail.comments.length
+                // }
                 return 0
             }
         },

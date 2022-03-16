@@ -42,10 +42,27 @@ export default {
 
             if(result.data.status === 200){
 
-                var dataUser = await dispatch('getUserById',result.data.data.post.USERID)
+                var promiseDataUser = dispatch('getUserById',result.data.data.post.USERID)
+
+                var promiseDataComment = dispatch('atcComments',postId)
+
+                var [dataUser,dataComment] = await Promise.all([promiseDataUser,promiseDataComment])
+
+                let objdata={
+                    ...result.data.data,
+                    comments: []
+                }
+                console.log('dataComment',dataComment);
+                
+                if(dataComment.oke){
+                    objdata.comments = dataComment.data.comments
+                    
+                }
+                console.log('objdata',objdata);
+
 
                 commit('SET_LOADING',false);
-                commit('GET_POSTDETAIL',result.data.data);
+                commit('GET_POSTDETAIL',objdata);
                 
                 return {
                     oke : true,
@@ -94,19 +111,10 @@ export default {
     async atcCreateNewPost({commit}, {url_image = '',post_content='',category='' ,obj_image = null}) {
 
         commit('SET_LOADING',true);
-        
-
 
         try {
 
             let getTokenFromLocalStorage = localStorage.getItem('token');
-
-            // let objdata = {
-            //     url_image: url_image,
-            //     post_content: post_content,
-            //     category: category,
-            //     obj_image: obj_image
-            // }
 
             var bodyFormData = new FormData();
 
@@ -137,7 +145,7 @@ export default {
                     data: result.data,
                     error: null
                 }
-
+                
             }
             
         } catch (error) {
@@ -147,5 +155,79 @@ export default {
             }
         }
     },
+    async atcComments({commit}, postId) {
+        try {
+
+            var result = await axiosApi.get('/comment/comments.php?postid=' + postId);
+
+            
+            if(result.data.status === 200){
+                
+                return {
+                    oke : true,
+                    data: result.data,
+                    error: null
+                }
+                
+            }
+            
+        } catch (error) {
+            return{
+                oke: false,
+                error: error
+            }
+        }
+    },
+    async atcAddComment({commit,rootState}, {comment= "" ,postid=null}) {
+        commit('SET_LOADING',true);
+
+        try {
+            let getTokenFromLocalStorage = localStorage.getItem('token');
+            
+            let objdata  = {
+                comment: comment,
+                postid: postid
+            }
+
+            let config = {
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'Authorization': 'Bearer ' + getTokenFromLocalStorage
+                }
+            }
+            
+            var result = await axiosApi.post('/comment/add_new.php',objdata,config);
+
+            commit('SET_LOADING',false);
+            
+            if(result.data.status === 200){
+                // rootState.postDetail.comments.push(result.data.body);
+
+                let comment = {
+                    ...result.data.body,
+                    fullname: rootState.user.currentUser.fullname,
+                    profilepicture: rootState.user.currentUser.profilepicture
+                }
+                commit('SET_COMMENT',comment);
+                
+                return {
+                    oke : true,
+                    data: result.data.body,
+                    error: null
+                }
+                
+            }
+            
+        } catch (error) {
+            commit('SET_LOADING',false);
+
+            return{
+                oke: false,
+                error: error
+            }
+        }
+    },
+
+    
 
 }

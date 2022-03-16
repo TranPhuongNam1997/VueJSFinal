@@ -19,7 +19,6 @@
                                 <input @change="changeInputUpload" class="d-none" ref="ipupload" id="ip-upload" type="file"/>
 
                                 <button @click.prevent="showPickFile">
-
                                     <label>
                                         <i></i>
                                         <span>Ảnh/Video</span>
@@ -33,15 +32,11 @@
                                     <span></span>
                                     <p>{{item.text}}</p>
                                 </label>
-                                
-
                             </div>  
                             <div class="text-center mt-3 mb-3">
                                 <button class="btn-uppost" @click.prevent="handlePostUpload">Đăng bài</button>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -76,7 +71,6 @@ import { mapActions } from 'vuex';
             getImageUpload(){
                 if(this.url_image) return this.url_image
 
-
                 else if(this.obj_image.base64){
                     return this.obj_image.base64
                 }
@@ -103,27 +97,17 @@ import { mapActions } from 'vuex';
                     });
                     return;
                 }
-
-
                 if (files.length){
                     this.createImage(files[0])
                 }
             },
 
             createImage(file) {
-
-
-                
-
                 var reader = new FileReader();
-                
                 var vm = this;
-
                 reader.onload = (e) => {
-
                     vm.obj_image.base64 = e.target.result;
                     vm.obj_image.objFile = file
-
                     console.log(vm.obj_image.objFile)
                 };
                 reader.readAsDataURL(file);
